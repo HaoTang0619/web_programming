@@ -55,6 +55,9 @@ export default function App() {
   const handlesetTime = (_, newPosition) => {
     const newTime = Math.round((newPosition * 180) / 100);
     setTime(newTime);
+    if (newTime === 180) {
+      setIsPlay(false);
+    }
   };
 
   const addZero = (num) => {
