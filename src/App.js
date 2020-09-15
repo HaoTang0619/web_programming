@@ -70,6 +70,7 @@ export default function App() {
   };
 
   const handleSetIsPlay = () => {
+    if (time === 180) return;
     setIsPlay((p) => !p);
   };
 
