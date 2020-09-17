@@ -67,6 +67,7 @@ const useStyles = makeStyles(() => ({
 export default function App() {
   const classes = useStyles();
   const [url, setUrl] = useState("https://www.youtube.com/watch?v=tXOlgAyueoo");
+  const [urlError, setUrlError] = useState(false);
   const [player, setPlayer] = useState(null);
   const [playInfo, setPlayInfo] = useState({
     isPlay: false,
@@ -102,6 +103,11 @@ export default function App() {
 
   useEffect(() => {
     if (player !== null) {
+      if (playInfo.url === null) {
+        setUrlError(true);
+        return;
+      }
+      setUrlError(false);
       getYoutubeTitle(playInfo.url, (_, title) => {
         setPlayInfo((state) => ({
           ...state,
@@ -192,6 +198,8 @@ export default function App() {
       <div style={{ display: "flex", width: "500px", margin: "auto" }}>
         <TextField
           className={classes.text}
+          error={urlError}
+          helperText={urlError && "Wrong url !"}
           fullWidth
           onChange={handleSetUrl}
           label="Parse a youtube url"
