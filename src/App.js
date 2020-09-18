@@ -80,6 +80,7 @@ export default function App() {
   const opts = {
     playerVars: {
       autoplay: 1,
+      playsinline: 1,
     },
   };
 
