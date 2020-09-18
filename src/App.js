@@ -96,34 +96,54 @@ export default function App() {
   };
 
   const handleSetPlayer = (event) => {
-    if (event.target.getPlayerState() === -1) {
-      setPlayer(null);
-    }
     setPlayer(event.target);
   };
 
-  useEffect(() => {
-    if (player !== null) {
-      if (playInfo.url === null) {
-        setUrlError(true);
-        return;
-      }
-      setUrlError(false);
-      getYoutubeTitle(playInfo.url, (_, title) => {
-        setPlayInfo((state) => ({
-          ...state,
-          title,
-        }));
-      });
-
+  const handlePlayerState = (event) => {
+    const st = event.target.getPlayerState();
+    if (st === -1) {
+      setPlayInfo((state) => ({
+        ...state,
+        isPlay: false,
+        time: 0,
+      }));
+    } else if (st === 0) {
+      setPlayInfo((state) => ({
+        ...state,
+        isPlay: false,
+        time: Math.round(event.target.getDuration()),
+      }));
+    } else if (st === 1) {
       setPlayInfo((state) => ({
         ...state,
         isPlay: true,
         time: Math.round(player.getCurrentTime()),
-        length: Math.round(player.getDuration()),
+      }));
+    } else if (st === 2) {
+      setPlayInfo((state) => ({
+        ...state,
+        isPlay: false,
       }));
     }
-  }, [player, playInfo.url]);
+    setPlayInfo((state) => ({
+      ...state,
+      length: Math.round(event.target.getDuration()),
+    }));
+  };
+
+  useEffect(() => {
+    if (playInfo.url === null) {
+      setUrlError(true);
+      return;
+    }
+    setUrlError(false);
+    getYoutubeTitle(playInfo.url, (_, title) => {
+      setPlayInfo((state) => ({
+        ...state,
+        title,
+      }));
+    });
+  }, [playInfo.url]);
 
   useEffect(() => {
     if (playInfo.isPlay) {
@@ -132,12 +152,6 @@ export default function App() {
           ...state,
           time: Math.round(player.getCurrentTime()),
         }));
-        if (Math.round(player.getCurrentTime()) === playInfo.length) {
-          setPlayInfo((state) => ({
-            ...state,
-            isPlay: false,
-          }));
-        }
       }, 500);
       return () => {
         clearInterval(interval);
@@ -149,10 +163,7 @@ export default function App() {
   // "_" is "event"
   const handleSetTime = (_, newPosition) => {
     if (player === null) return;
-    let newTime = Math.round((newPosition * playInfo.length) / 100);
-    if (newTime === playInfo.length) {
-      newTime -= 1;
-    }
+    const newTime = Math.round((newPosition * playInfo.length) / 100);
     player.seekTo(newTime);
     setPlayInfo((state) => ({
       ...state,
@@ -165,7 +176,7 @@ export default function App() {
   };
 
   const timeToPosition = (t) => {
-    return (t * 100) / playInfo.length;
+    return playInfo.length === 0 ? 0 : (t * 100) / playInfo.length;
   };
 
   const timeFormat = (t) => {
@@ -259,9 +270,9 @@ export default function App() {
               ? "00:00 "
               : `${timeFormat(playInfo.time)} `}
             /
-            {Number.isNaN(playInfo.length) || player === null
+            {Number.isNaN(playInfo.length)
               ? " 00:00"
-              : ` ${timeFormat(Math.round(player.getDuration()))}`}
+              : ` ${timeFormat(playInfo.length)}`}
           </Typography>
         </div>
       </div>
@@ -269,7 +280,7 @@ export default function App() {
         <YouTube
           videoId={playInfo.url}
           opts={opts}
-          onStateChange={handleSetPlayer}
+          onStateChange={handlePlayerState}
           onReady={handleSetPlayer}
         />
       </div>
