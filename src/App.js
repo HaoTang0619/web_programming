@@ -97,6 +97,10 @@ export default function App() {
 
   const handleSetPlayer = (event) => {
     setPlayer(event.target);
+    setPlayInfo((state) => ({
+      ...state,
+      length: Math.round(event.target.getDuration()),
+    }));
   };
 
   const handlePlayerState = (event) => {
@@ -123,6 +127,7 @@ export default function App() {
       setPlayInfo((state) => ({
         ...state,
         isPlay: false,
+        time: Math.round(player.getCurrentTime()),
       }));
     }
     setPlayInfo((state) => ({
@@ -189,20 +194,11 @@ export default function App() {
     } else {
       player.pauseVideo();
     }
-    setPlayInfo((state) => ({
-      ...state,
-      isPlay: type,
-    }));
   };
 
   const handleStop = () => {
-    player.pauseVideo();
     player.seekTo(0);
-    setPlayInfo((state) => ({
-      ...state,
-      isPlay: false,
-      time: 0,
-    }));
+    player.pauseVideo();
   };
 
   return (
