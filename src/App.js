@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   makeStyles,
   Button,
@@ -66,16 +66,17 @@ const useStyles = makeStyles(() => ({
 
 export default function App() {
   const classes = useStyles();
-  const [url, setUrl] = useState("https://www.youtube.com/watch?v=tXOlgAyueoo");
+  const [url, setUrl] = useState("https://www.youtube.com/watch?v=_HLldftPI0Q");
   const [urlError, setUrlError] = useState(false);
   const [player, setPlayer] = useState(null);
   const [playInfo, setPlayInfo] = useState({
     isPlay: false,
     time: 0,
     length: 0,
-    title: "天亮請睜眼 feat. 邱鋒澤",
-    url: "tXOlgAyueoo",
+    title: "欸幹 穿山甲欸 備份",
+    url: "_HLldftPI0Q",
   });
+  const playRef = useRef();
 
   const opts = {
     playerVars: {
@@ -101,6 +102,9 @@ export default function App() {
       ...state,
       length: Math.round(event.target.getDuration()),
     }));
+    if (playRef.current !== null) {
+      playRef.current.click();
+    }
   };
 
   const handlePlayerState = (event) => {
@@ -250,6 +254,7 @@ export default function App() {
               color="primary"
               component="span"
               onClick={handlePlayPause(true)}
+              ref={playRef}
             >
               {playInfo.time === playInfo.length && playInfo.length !== 0 ? (
                 <ReplayIcon fontSize="large" />
