@@ -11,7 +11,7 @@ import {
 
 const useStyles = makeStyles(() => ({
   bar: {
-    background: "gray",
+    background: "linear-gradient(#bbb, #888)",
   },
   root: {
     marginTop: "100px",
