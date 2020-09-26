@@ -12,6 +12,7 @@ import {
 const useStyles = makeStyles(() => ({
   bar: {
     background: "linear-gradient(#bbb, #888)",
+    height: "45px",
   },
   root: {
     marginTop: "75px",
@@ -40,7 +41,7 @@ export default function Home() {
     <>
       <AppBar className={classes.bar} position="fixed">
         <Toolbar variant="dense">
-          <Typography variant="h6" color="inherit">
+          <Typography variant="subtitle1" color="inherit">
             登入頁面
           </Typography>
         </Toolbar>

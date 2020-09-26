@@ -44,6 +44,7 @@ const StyledTableRow = withStyles((theme) => ({
 const useStyles = makeStyles((theme) => ({
   bar: {
     background: "linear-gradient(#bbb, #888)",
+    height: "45px",
   },
   root: {
     marginTop: "75px",
@@ -74,7 +75,7 @@ export default function Home() {
     <>
       <AppBar className={classes.bar} position="fixed">
         <Toolbar variant="dense">
-          <Typography variant="h6" color="inherit">
+          <Typography variant="subtitle1" color="inherit">
             自動開關控制頁面
           </Typography>
         </Toolbar>
