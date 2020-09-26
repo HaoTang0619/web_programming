@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { makeStyles, Button } from "@material-ui/core";
 import Home from "./Home";
+import Control from "./Control";
 
 const useStyles = makeStyles(() => ({
   button: {
@@ -20,7 +21,7 @@ export default function Gridwell() {
 
   return (
     <>
-      {tab && <Home />}
+      {tab ? <Home /> : <Control />}
       <Button
         className={classes.button}
         onClick={tabSwitch}
