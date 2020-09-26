@@ -1,14 +1,20 @@
 import React from "react";
 import {
   makeStyles,
+  AppBar,
   Button,
   Container,
   TextField,
+  Toolbar,
   Typography,
 } from "@material-ui/core";
 
 const useStyles = makeStyles(() => ({
+  bar: {
+    background: "gray",
+  },
   root: {
+    marginTop: "100px",
     textAlign: "center",
   },
   title: {
@@ -31,20 +37,30 @@ export default function Home() {
   const classes = useStyles();
 
   return (
-    <Container className={classes.root} fixed maxWidth="xs">
-      <img alt="logo" src="/login.jpg" />
-      <Typography className={classes.title} variant="h5">
-        IoT監測控制系統
-      </Typography>
-      <div className={classes.form}>
-        <span className={classes.text}>帳號</span>
-        <TextField label="輸入帳號" variant="outlined" />
-      </div>
-      <div className={classes.form}>
-        <span className={classes.text}>密碼</span>
-        <TextField label="輸入密碼" variant="outlined" />
-      </div>
-      <Button variant="contained">送出</Button>
-    </Container>
+    <>
+      <AppBar className={classes.bar} position="fixed">
+        <Toolbar variant="dense">
+          <Typography variant="h6" color="inherit">
+            登入頁面
+          </Typography>
+        </Toolbar>
+      </AppBar>
+
+      <Container className={classes.root} fixed maxWidth="xs">
+        <img alt="logo" src="/login.jpg" />
+        <Typography className={classes.title} variant="h5">
+          IoT監測控制系統
+        </Typography>
+        <div className={classes.form}>
+          <span className={classes.text}>帳號</span>
+          <TextField label="輸入帳號" variant="outlined" />
+        </div>
+        <div className={classes.form}>
+          <span className={classes.text}>密碼</span>
+          <TextField label="輸入密碼" variant="outlined" />
+        </div>
+        <Button variant="contained">送出</Button>
+      </Container>
+    </>
   );
 }
