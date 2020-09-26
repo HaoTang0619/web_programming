@@ -14,7 +14,7 @@ const useStyles = makeStyles(() => ({
     background: "linear-gradient(#bbb, #888)",
   },
   root: {
-    marginTop: "100px",
+    marginTop: "75px",
     textAlign: "center",
   },
   title: {
